@@ -1,7 +1,7 @@
 resource "null_resource" "remote_exec_from_github" {
 
   connection {
-    host        = var.host
+    host        = "34.194.238.35"
     type        = "ssh"
     user        = "ubuntu"
     agent       = "true"

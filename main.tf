@@ -12,10 +12,10 @@ resource "aws_instance" "my_test_instance" {
   }
 }
 
-# resource "aws_eip_association" "eip_assoc" {
-#   instance_id   = aws_instance.my_test_instance.id
-#   allocation_id = eipalloc-04d9cb4194aef6826
-# }
+resource "aws_eip_association" "eip_assoc" {
+  instance_id   = aws_instance.my_test_instance.id
+  allocation_id = "eipalloc-04d9cb4194aef6826"
+}
 
 
 resource "aws_security_group" "ssh_group" {

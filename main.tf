@@ -3,7 +3,7 @@ resource "aws_key_pair" "example" {
   public_key = file("/Users/vaibhavdhoke/.ssh/mykey.pub")
 }
 
-resource "aws_instance" "my_test_instance" {
+resource "aws_instance" "uber_instance" {
   ami           = "ami-042e8287309f5df03"
   instance_type = "t2.micro"
   key_name      = aws_key_pair.example.key_name
@@ -13,7 +13,7 @@ resource "aws_instance" "my_test_instance" {
 }
 
 resource "aws_eip_association" "eip_assoc" {
-  instance_id   = aws_instance.my_test_instance.id
+  instance_id   = aws_instance.uber_instance.id
   allocation_id = "eipalloc-04d9cb4194aef6826"
 }
 
@@ -107,17 +107,17 @@ resource "aws_route_table_association" "association1" {
 
 resource "aws_network_interface_sg_attachment" "sg_attachment" {
   security_group_id    = aws_security_group.ssh_group.id
-  network_interface_id = aws_instance.my_test_instance.primary_network_interface_id
+  network_interface_id = aws_instance.uber_instance.primary_network_interface_id
 }
 
 module "provision_project" {
   source               = "./provision_project"
-  host                 = aws_instance.my_test_instance.public_dns
+  host                 = aws_instance.uber_instance.public_dns
   path_to_private_key  = "${var.path_to_private_key}"
   base_directory       = "/Users/vaibhavdhoke/Downloads/Uber/Infra"
   project_link_or_path = "foo"
   image_version        = "bar"
   use_github           = "yep"
   use_local            = "nope"
-  public_ip            = aws_instance.my_test_instance.public_dns
+  public_ip            = aws_instance.uber_instance.public_dns
 }
